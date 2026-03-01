@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Installs and configures Nginx to serve a custom page
+# Install Nginx and configure root page to return exact Holberton School
 
 apt-get update -y
 apt-get install nginx -y
 
-echo "Holberton School for the win!" > /var/www/html/index.html
+echo "Holberton School" > /var/www/html/index.html
 
 service nginx restart
