@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # Install Nginx and configure root page to return exact Holberton School
 
+# Update package list and install nginx
 apt-get update -y
 apt-get install nginx -y
 
+# Write the exact page content expected by checker
 echo "Holberton School" > /var/www/html/index.html
 
+# Ensure Nginx is running on port 80
 service nginx restart
