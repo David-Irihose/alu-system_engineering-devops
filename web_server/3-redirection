@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Update packages and install Nginx
+sudo apt update -y
+sudo apt install nginx -y
+
+# Ensure Nginx starts on boot and is running
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+# Configure Nginx default server for redirection
+sudo tee /etc/nginx/sites-available/default > /dev/null <<'EOF'
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    # 301 redirect for /redirect_me
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}
+EOF
+
+# Test Nginx configuration
+sudo nginx -t
+
+# Reload Nginx to apply changes
+sudo systemctl reload nginx
