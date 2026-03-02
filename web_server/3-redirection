@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Configures Nginx to redirect /redirect_me to YouTube with a 301 status
 
-# Update packages and install Nginx
+# Update packages and install Nginx non-interactively
 sudo apt update -y
 sudo apt install nginx -y
 
@@ -27,8 +27,6 @@ server {
 }
 EOF
 
-# Test Nginx configuration
+# Test Nginx configuration and reload
 sudo nginx -t
-
-# Reload Nginx to apply changes
 sudo systemctl reload nginx
