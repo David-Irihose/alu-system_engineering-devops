@@ -1,37 +1,33 @@
 #!/usr/bin/env bash
-# 4-not_found_page_404
-# Configures a brand new Ubuntu machine with a custom 404 page
+# Configures Nginx with a custom 404 page
 
-# Update packages
-sudo apt-get update -y
-sudo apt-get install -y nginx
+apt-get update -y
+apt-get install -y nginx
 
 # Create custom 404 page
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 
-# Backup default Nginx config
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-
-# Configure Nginx to serve custom 404 page
-sudo tee /etc/nginx/sites-available/default > /dev/null <<EOF
+# Overwrite default nginx config completely
+cat > /etc/nginx/sites-available/default <<EOF
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
     root /var/www/html;
-    index index.html;
+    index index.html index.htm;
 
-    # Custom 404 page
-    error_page 404 /404.html;
+    server_name _;
 
     location / {
         try_files \$uri \$uri/ =404;
     }
+
+    error_page 404 /404.html;
+
+    location = /404.html {
+        internal;
+    }
 }
 EOF
 
-# Test Nginx configuration
-sudo nginx -t
-
-# Restart Nginx
-sudo systemctl restart nginx
+service nginx restart
