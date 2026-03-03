@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Configures Nginx to redirect /redirect_me to YouTube with a 301 status
-
-# Update packages and install Nginx non-interactively
+# Configures Nginx to redirect /redirect_me to YouTube with a 301 Moved Permanently
 sudo apt update -y
+
+# Install Nginx non-interactively
 sudo apt install nginx -y
 
-# Ensure Nginx starts on boot and is running
+# Enable and start Nginx
 sudo systemctl enable nginx
 sudo systemctl start nginx
 
-# Configure Nginx default server for redirection
+# Configure default Nginx site with /redirect_me 301 redirect
 sudo tee /etc/nginx/sites-available/default > /dev/null <<'EOF'
 server {
     listen 80 default_server;
@@ -20,7 +20,6 @@ server {
 
     server_name _;
 
-    # 301 redirect for /redirect_me
     location /redirect_me {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
