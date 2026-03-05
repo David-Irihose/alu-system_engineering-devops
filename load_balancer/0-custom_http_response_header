@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Configures Nginx to include a custom HTTP response header
+
+# Update packages and install nginx
+apt-get update -y
+apt-get install -y nginx
+
+# Set default index page
+echo "Holberton School" > /var/www/html/index.html
+
+# Add custom HTTP header to Nginx config
+sed -i '/server_name _;/a add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
+
+# Restart Nginx to apply changes
+service nginx restart
