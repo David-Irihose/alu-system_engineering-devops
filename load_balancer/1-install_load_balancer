@@ -5,13 +5,13 @@
 apt-get update -y
 apt-get install -y haproxy
 
-# Enable HAProxy to start on boot (init script)
+# Enable HAProxy to start on boot
 sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
 
-# Backup original HAProxy config
+# Backup original config
 cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
 
-# Configure HAProxy frontend and backend
+# Configure HAProxy
 cat > /etc/haproxy/haproxy.cfg <<EOF
 global
     log /dev/log local0
@@ -38,5 +38,5 @@ backend http_back
     server web-02 54.221.155.9:80 check
 EOF
 
-# Restart HAProxy to apply changes
+# Restart HAProxy
 service haproxy restart
