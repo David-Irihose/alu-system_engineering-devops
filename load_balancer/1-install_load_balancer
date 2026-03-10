@@ -34,8 +34,8 @@ frontend http_front
 
 backend http_back
     balance roundrobin
-    server web-01 54.221.155.8:80 check
-    server web-02 54.221.155.9:80 check
+    server 6989-web-01 98.94.62.248:80 check
+    server 6989-web-02 3.88.11.185:80 check
 EOF
 
 # Restart HAProxy
